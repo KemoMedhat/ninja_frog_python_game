@@ -9,15 +9,28 @@ pygame.init()
 
 pygame.display.set_caption("Ninja Frog")
 
-BG_COLOR = (255,255,255)
-WIDTH, HEIGHT = 400, 600
+WIDTH, HEIGHT = 900, 700
 FPS = 60
 PLAYER_VEL = 5
 
 window = pygame.display.set_mode((WIDTH,HEIGHT))
+def get_background(name):
+    image = pygame.image.load(join("assets","background",name))
+    _, _, width,height = image.get_rect()
+    tiles = []
+    for i in range(WIDTH // width + 1):
+        for j in range(HEIGHT // height + 1):
+            pos = (i * width , j * height)
+            tiles.append(pos)
+    return tiles,image
+def draw(window,backgrond,bg_image):
+    for tile in backgrond:
+        window.blit(bg_image,tile)
+    pygame.display.update()
 
 def main(window):
     run = True
+    backgroud, bg_image = get_background("Green.png")
     clock = pygame.time.Clock()
     while run:
         clock.tick(FPS)
@@ -25,6 +38,7 @@ def main(window):
             if event.type == pygame.QUIT:
                 run = False
                 break
+        draw(window,backgroud,bg_image)
     pygame.quit()  
     quit()
 
